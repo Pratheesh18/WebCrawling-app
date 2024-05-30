@@ -31,7 +31,7 @@ const MemePage = () => {
         doc.text("Top 20 trending memes " , 10,yPos);
 
         topPosts.forEach((post,index) => {
-            ypos += 10;
+            yPos += 10;
             doc.text(`${index + 1}. ${post.title}`, 10, yPos);
             doc.text(`${post.url}`, 10, yPos + 5);
         });
@@ -48,6 +48,7 @@ const MemePage = () => {
                 {topPosts.map((meme,index) => (
                     <li key={index}>
                         <strong> {meme.title} </strong> - {meme.url}
+                        <strong> {meme.upvotes} </strong>
                     </li>
                 ))}
             </ul>
