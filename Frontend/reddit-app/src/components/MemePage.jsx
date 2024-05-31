@@ -33,22 +33,34 @@ const MemePage = () => {
     const generatePdf = () => {
         const doc = new jsPDF();
         let yPos = 10;
-
-        doc.text("Top 20 trending memes " , 10,yPos);
-
-        topPosts.forEach((post,index) => {
+    
+        doc.text("Top 20 Trending Memes", 10, yPos);
+        yPos += 10; // Add space after the title
+    
+        topPosts.forEach((post, index) => {
+            if (yPos > 280) { // Check if the y-position exceeds the page height limit
+                doc.addPage(); // Add a new page
+                yPos = 10; // Reset y-position for the new page
+            }
+            
             yPos += 10;
             doc.text(`${index + 1}. ${post.title}`, 10, yPos);
-            doc.text(`${post.url}`, 10, yPos + 5);
+            yPos += 10;
+            doc.text(`URL: ${post.url}`, 10, yPos);
+            yPos += 5;
+            doc.text(`Upvotes: ${post.upvotes}`, 10, yPos);
+            yPos += 5;
+            doc.text(`Created: ${formDate(post.created_utc)}`, 10, yPos);
+            yPos += 10; // Add space after each meme entry
         });
-
+    
         doc.save('Top_Memes_Report.pdf');
     };
-
+    
 
     return(
         <div style={{padding:20}}>
-            <Typography variant='h4' gutterBottom>
+            <Typography variant='h4'   style={{display:'flex' , justifyContent:'center'}} >
                 Top 20 Trending Memes
             </Typography>
             <Button variant='contained' color='primary' onClick={generatePdf} style={{marginBottom:20}}>
