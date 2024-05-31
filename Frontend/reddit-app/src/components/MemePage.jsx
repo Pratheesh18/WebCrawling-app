@@ -12,13 +12,11 @@ const MemePage = () => {
 
     useEffect(() => {
         fetchTopPosts();
-        console.log("Posts " , fetchTopPosts());
     },[]);
 
     const fetchTopPosts = async () => {
         try{
             const res = await axios.get('http://localhost:5000/api/top-posts');
-            console.log("memes" , res.data)
             setTopPosts(res.data);
         }catch(err){
             console.error('Error fetching data ' , err);
@@ -35,12 +33,12 @@ const MemePage = () => {
         let yPos = 10;
     
         doc.text("Top 20 Trending Memes", 10, yPos);
-        yPos += 10; // Add space after the title
+        yPos += 10; 
     
         topPosts.forEach((post, index) => {
-            if (yPos > 280) { // Check if the y-position exceeds the page height limit
-                doc.addPage(); // Add a new page
-                yPos = 10; // Reset y-position for the new page
+            if (yPos > 280) { 
+                doc.addPage(); 
+                yPos = 10; 
             }
             
             yPos += 10;
@@ -51,7 +49,7 @@ const MemePage = () => {
             doc.text(`Upvotes: ${post.upvotes}`, 10, yPos);
             yPos += 5;
             doc.text(`Created: ${formDate(post.created_utc)}`, 10, yPos);
-            yPos += 10; // Add space after each meme entry
+            yPos += 10; 
         });
     
         doc.save('Top_Memes_Report.pdf');
