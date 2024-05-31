@@ -1,6 +1,8 @@
 import React , {useState , useEffect} from 'react';
 import axios from 'axios';
 import {jsPDF} from 'jspdf';
+import {Card,CardContent,CardMedia,Typography,Button,Grid} from '@mui/material';
+import { DateTime } from 'luxon';
 
 
 
@@ -23,6 +25,10 @@ const MemePage = () => {
         }
     };
 
+    const formDate = (unixTimeStamp) => {
+        return DateTime.fromSeconds(unixTimeStamp).toLocaleString(DateTime.DATETIME_MED);
+    }
+
 
     const generatePdf = () => {
         const doc = new jsPDF();
@@ -41,17 +47,39 @@ const MemePage = () => {
 
 
     return(
-        <div>
-            <h2>  Top 20 Trending memes </h2>
-            <button onClick={generatePdf}> Generate PDF </button>
-            <ul>
+        <div style={{padding:20}}>
+            <Typography variant='h4' gutterBottom>
+                Top 20 Trending Memes
+            </Typography>
+            <Button variant='contained' color='primary' onClick={generatePdf} style={{marginBottom:20}}>
+                Generate PDF
+            </Button>
+            <Grid conatiner spacing={4}>
                 {topPosts.map((meme,index) => (
-                    <li key={index}>
-                        <strong> {meme.title} </strong> - {meme.url}
-                        <strong> {meme.upvotes} </strong>
-                    </li>
+                    <Grid item key={index} xs={12} sm={6} md={4}>
+                        <Card style={{margin:20}}>
+                            <CardMedia
+                                 component="img"
+                                 alt={meme.title}
+                                 height="140"
+                                 image={meme.url}
+                                 title={meme.title}
+                            />
+                            <CardContent>
+                                <Typography variant='h6' component="div">
+                                    {meme.title}
+                                </Typography>
+                                <Typography variant='body2' color="text.secondary">
+                                    Upvotes : {meme.upvotes}
+                                </Typography>
+                                <Typography variant='body2' color="text.secondary">
+                                    Created Date and Time :   {formDate(meme.created_utc)}
+                                </Typography>
+                            </CardContent>
+                        </Card>
+                    </Grid>
                 ))}
-            </ul>
+            </Grid>
         </div>
     )
 };
