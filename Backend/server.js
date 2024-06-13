@@ -2,13 +2,27 @@ const express = require('express');
 const mongoose = require('mongoose');
 const {fetchTopPosts} = require('./crawler');
 const authRoutes = require('./Routes/authRoutes')
-const cors = require('cors')
+const cors = require('cors');
+const passport = require('passport');
+const session = require('express-session');
 require('dotenv').config();
+require('./Config/passportConfig');
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+app.use(
+    session({
+        secret : process.env.SESSION_SECRET,
+        resave:false,
+        saveUninitialized:false
+    })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/api/auth' , authRoutes)
 

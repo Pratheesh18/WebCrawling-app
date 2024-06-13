@@ -1,6 +1,20 @@
 const User = require('../Models/User');
 const generateToken = require('../Utils/generateToken');
 
+
+
+exports.googleLogin = (req,res)  => {
+    const token = jwt.sign({id:req.user._id},processe.env.JWT_SECRET,{
+        expiresIn : process.env.JWT_EXPIRE
+    });
+
+    res.redirect(`http://localhost:3000?token=${token}`)
+}
+
+
+
+
+
 exports.registerUser = async (req,res) => {
     const {username , email , password} = req.body;
 
