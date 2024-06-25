@@ -2,6 +2,7 @@ const express = require('express');
 const {registerUser , loginUser , getUserProfile} = require('../Controllers/authController');
 const {protect} = require('../middlewares/authMiddleware');
 const {googleLogin} = require('../Controllers/authController');
+const passport = require('passport')
 
 const router = express.Router();
 
